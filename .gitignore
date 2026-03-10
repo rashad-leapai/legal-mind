@@ -1,0 +1,52 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+
+# ---- Virtual Environments ----
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# ---- Environment Variables ----
+.env
+.env.*
+*.env
+
+# ---- FastAPI / Uvicorn ----
+*.log
+logs/
+*.db
+instance/
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.swp
+
+# ---- OS / Misc ----
+.DS_Store
+Thumbs.db
+
+# ---- Byte / Cache ----
+*.cache
+.cache/
+pytest_cache/
+
+# ---- Build / Distribution ----
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---- Testing ----
+.coverage
+htmlcov/
+coverage.xml
+.junit/
+config/leapai-396111-e8657d560d79.json

@@ -1,0 +1,49 @@
+SOFTWARE DEVELOPMENT AND SERVICES AGREEMENT
+
+This Software Development and Services Agreement ("Agreement") is made between TechCorp Inc., a Delaware corporation ("Company"), and Legal Services LLC, a California limited liability company ("Service Provider"), effective as of March 1, 2026.
+
+ARTICLE 1 - SERVICES
+1.1 Service Provider shall provide custom legal document management software development services as detailed in Exhibit A, including but not limited to:
+- Legal document parsing and indexing system
+- AI-powered search and retrieval functionality  
+- Compliance monitoring dashboard
+- Integration with existing case management systems
+
+1.2 All services shall be performed in accordance with industry best practices and applicable laws.
+
+ARTICLE 2 - PAYMENT TERMS
+2.1 Company shall pay Service Provider a total fee of $150,000 for the services described herein, payable in monthly installments of $25,000.
+2.2 Payment shall be due within thirty (30) days of receipt of invoice.
+2.3 Late payments shall accrue interest at a rate of 1.5% per month.
+
+ARTICLE 3 - INTELLECTUAL PROPERTY
+3.1 All custom software and intellectual property developed under this Agreement shall be owned exclusively by Company.
+3.2 Service Provider retains ownership of pre-existing intellectual property and general methodologies.
+3.3 Company grants Service Provider a limited license to use Company's confidential information solely for performance of services under this Agreement.
+
+ARTICLE 4 - CONFIDENTIALITY
+4.1 Each party acknowledges that it may receive confidential information from the other party.
+4.2 Confidential information shall be protected for a period of five (5) years after termination of this Agreement.
+4.3 Confidential information does not include information that is publicly available or independently developed.
+
+ARTICLE 5 - INDEMNIFICATION
+5.1 Service Provider shall indemnify and hold harmless Company from any claims arising from Service Provider's negligent performance or willful misconduct.
+5.2 Company shall indemnify Service Provider from claims arising from Company's use of the delivered software in violation of applicable laws.
+5.3 The maximum liability under this Agreement shall not exceed $500,000 for any party.
+
+ARTICLE 6 - TERMINATION
+6.1 Either party may terminate this Agreement with sixty (60) days written notice.
+6.2 Company may terminate immediately for material breach that remains uncured for thirty (30) days after written notice.
+6.3 Upon termination, all confidential information shall be returned or destroyed within thirty (30) days.
+
+ARTICLE 7 - GENERAL PROVISIONS
+7.1 This Agreement shall be governed by the laws of California.
+7.2 Any disputes shall be resolved through binding arbitration in San Francisco, California.
+7.3 This Agreement constitutes the entire agreement between the parties.
+
+Executed on March 1, 2026.
+
+TECHCORP INC.                    LEGAL SERVICES LLC
+By: /s/ John Smith               By: /s/ Sarah Johnson
+Name: John Smith                 Name: Sarah Johnson
+Title: CEO                       Title: Managing Member

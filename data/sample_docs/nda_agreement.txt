@@ -1,0 +1,69 @@
+MUTUAL NON-DISCLOSURE AGREEMENT
+
+This Mutual Non-Disclosure Agreement ("NDA") is entered into on March 5, 2026, between TechCorp Inc., a Delaware corporation ("Company"), and DataVault Systems Inc., a Texas corporation ("Counterparty").
+
+WHEREAS, the parties wish to explore a potential business relationship involving the exchange of confidential information;
+
+NOW THEREFORE, the parties agree as follows:
+
+1. DEFINITION OF CONFIDENTIAL INFORMATION
+1.1 "Confidential Information" means any and all non-public, proprietary information disclosed by either party, including but not limited to:
+- Technical data, algorithms, source code, and software architecture
+- Business plans, financial information, and customer lists  
+- Legal strategies, litigation plans, and settlement discussions
+- Research and development projects and intellectual property
+
+1.2 Confidential Information does not include information that:
+- Is or becomes publicly available through no breach of this Agreement
+- Was rightfully known prior to disclosure
+- Is independently developed without use of Confidential Information
+- Is rightfully received from a third party without restriction
+
+2. OBLIGATIONS OF RECEIVING PARTY
+2.1 Each party agrees to:
+- Maintain the confidentiality of all Confidential Information received
+- Use Confidential Information solely for evaluating potential business opportunities
+- Limit access to employees and advisors with a legitimate need to know
+- Apply the same degree of care used to protect its own confidential information, but not less than reasonable care
+
+2.2 Neither party shall reverse engineer, disassemble, or attempt to derive the composition or underlying information of any Confidential Information.
+
+3. PERMITTED DISCLOSURES
+3.1 Confidential Information may be disclosed if required by law, court order, or government regulation, provided that:
+- The disclosing party provides prompt written notice to the other party
+- The disclosing party cooperates in any effort to seek a protective order
+- Disclosure is limited to the minimum required by the legal obligation
+
+4. RETURN OF INFORMATION
+4.1 Upon termination of discussions or upon written request, each party shall:
+- Return or destroy all documents containing Confidential Information
+- Delete all electronic copies and derivative works
+- Provide written certification of compliance within thirty (30) days
+
+5. NO OBLIGATION TO PROCEED
+5.1 This Agreement does not obligate either party to proceed with any transaction or business relationship.
+5.2 No license or rights are granted except as expressly set forth herein.
+
+6. REMEDIES
+6.1 The parties acknowledge that disclosure of Confidential Information would cause irreparable harm.
+6.2 Each party shall be entitled to seek injunctive relief and monetary damages for any breach.
+6.3 The prevailing party in any legal action shall be entitled to reasonable attorneys' fees.
+
+7. TERM AND SURVIVAL
+7.1 This Agreement shall remain in effect for three (3) years from the date of execution.
+7.2 The obligations of confidentiality shall survive termination and continue for five (5) years.
+7.3 The obligations regarding return of information shall survive any termination.
+
+8. GENERAL PROVISIONS
+8.1 This Agreement shall be governed by Delaware law without regard to conflict of laws principles.
+8.2 Any amendments must be in writing and signed by both parties.
+8.3 If any provision is held unenforceable, the remainder shall remain in full force.
+8.4 This Agreement may be executed in counterparts and electronically.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first written above.
+
+TECHCORP INC.                    DATAVAULT SYSTEMS INC.
+By: /s/ John Smith               By: /s/ Michael Chen  
+Name: John Smith                 Name: Michael Chen
+Title: CEO                       Title: President
+Date: March 5, 2026             Date: March 5, 2026

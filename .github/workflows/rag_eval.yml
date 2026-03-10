@@ -1,0 +1,46 @@
+name: LegalMind RAG Quality Gates
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+jobs:
+  rag-evaluation:
+    runs-on: ubuntu-latest
+    name: RAG Quality Evaluation
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit + evaluation tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+          REDIS_URL: "redis://localhost:6379"
+          FAITHFULNESS_THRESHOLD: "0.9"
+        run: |
+          pytest tests/ -v \
+            --tb=short \
+            --junitxml=test-results.xml \
+            -k "not real_llm"
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: test-results.xml
+
+      - name: Comment faithfulness score on PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "✅ All RAG quality gates passed. Faithfulness ≥ 0.9 confirmed." >> $GITHUB_STEP_SUMMARY

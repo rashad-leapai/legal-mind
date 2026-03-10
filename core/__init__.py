@@ -1,0 +1,1 @@
+# LegalMind Core Package

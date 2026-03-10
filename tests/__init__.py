@@ -1,0 +1,1 @@
+# LegalMind Tests Package
