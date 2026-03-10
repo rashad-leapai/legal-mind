@@ -15,7 +15,7 @@ ENV/
 
 # ---- Environment Variables ----
 .env
-.env.*
+#.env.*
 *.env
 
 # ---- FastAPI / Uvicorn ----
