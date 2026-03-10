@@ -30,18 +30,13 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-cov pytest-mock
     
-    - name: Set test environment variables
+    - name: Run Unit Tests
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         QDRANT_URL: ${{ secrets.QDRANT_URL }}
         QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
         COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
         REDIS_URL: ${{ secrets.REDIS_URL }}
-        REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-      run: |
-        echo "Environment configured for evaluation"
-    
-    - name: Run Unit Tests
       run: |
         pytest tests/test_evaluation.py::TestIngestionPipeline -v
         pytest tests/test_evaluation.py::TestHybridRetrieval -v
@@ -53,6 +48,7 @@ jobs:
         QDRANT_URL: ${{ secrets.QDRANT_URL }}
         QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
         COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+        REDIS_URL: ${{ secrets.REDIS_URL }}
         USE_REAL_LLM: "false"  # Use mocked scores in CI for reliability
       run: |
         pytest tests/test_evaluation.py::TestRAGMetrics::test_faithfulness_above_threshold -v
@@ -62,6 +58,9 @@ jobs:
     - name: Test Golden Dataset Generation
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        QDRANT_URL: ${{ secrets.QDRANT_URL }}
+        QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
+        COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
       run: |
         pytest tests/test_evaluation.py::TestGoldenDatasetGeneration -v
     
