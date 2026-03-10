@@ -70,13 +70,7 @@ jobs:
     
     - name: Generate Coverage Report
       run: |
-        pytest tests/test_evaluation.py --cov=core --cov=agents --cov-report=xml
-    
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
+        pytest tests/test_evaluation.py --cov=core --cov=agents --cov-report=term-missing
     
     - name: Evaluation Summary
       if: always()
