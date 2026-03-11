@@ -16,20 +16,23 @@ LLM_MODEL = "gpt-4o"
 
 logger = logging.getLogger(__name__)
 
-ADVERSARIAL_PROMPT = """You are an adversarial legal expert generating complex benchmark questions.
-Given these legal document excerpts, generate {n} challenging question-answer pairs that:
-- Require multi-hop reasoning across clauses
-- Test understanding of specific legal terminology  
-- Include cross-document interactions where possible
-- Are unambiguously answerable from the provided context
+ADVERSARIAL_PROMPT = """You are an expert legal analyst. Generate {n} challenging legal questions from the provided documents.
 
-Return ONLY valid JSON in this exact format:
+Focus on:
+- Specific clauses and their implications
+- Key terms and definitions
+- Legal obligations and restrictions
+- Important dates, parties, and procedures
+
+For each document excerpt, create questions that can be answered directly from the text.
+
+Return ONLY a JSON array in this exact format:
 [
   {{
-    "question": "...",
-    "reference_context": "exact quote from the document that answers this",
-    "expected_answer": "precise legal answer",
-    "doc_ids": ["doc_id1", "doc_id2"]
+    "question": "What are the specific obligations under Section X?",
+    "reference_context": "exact text from document that contains the answer",
+    "expected_answer": "clear answer based on the reference context",
+    "doc_ids": ["doc_id"]
   }}
 ]
 """
@@ -49,11 +52,18 @@ class AdversarialLawyerAgent:
     def generate_golden_dataset(
         self, sample_chunks: list[DocumentChunk], n_questions: int = 50
     ) -> list[EvaluationSample]:
-        batch_size = 5
+        batch_size = 3  # Smaller batches for better quality
         samples: list[EvaluationSample] = []
 
-        for i in range(0, min(len(sample_chunks), n_questions * 2), batch_size):
-            batch = sample_chunks[i : i + batch_size]
+        # Filter chunks to get meaningful content
+        meaningful_chunks = [c for c in sample_chunks if len(c.content.split()) > 20]
+        
+        if not meaningful_chunks:
+            logger.warning("No meaningful chunks found for question generation")
+            return []
+
+        for i in range(0, min(len(meaningful_chunks), n_questions * 3), batch_size):
+            batch = meaningful_chunks[i : i + batch_size]
             context = "\n\n---\n\n".join(
                 f"[DOC:{c.doc_id}]\n{c.content}" for c in batch
             )
@@ -93,7 +103,12 @@ class AdversarialLawyerAgent:
                     
                     # Check for API error responses
                     if isinstance(pairs, dict) and "error" in pairs:
-                        logger.warning(f"API error in batch {i}: {pairs.get('error')}")
+                        logger.info(f"API declined to generate questions for batch {i}: {pairs.get('error')}")
+                        continue
+                    
+                    # Check for insufficient content response
+                    if isinstance(pairs, dict) and any(key in str(pairs).lower() for key in ['not enough', 'insufficient', 'cannot generate']):
+                        logger.debug(f"Insufficient content for batch {i}, skipping")
                         continue
                     
                     # Handle different response formats
@@ -111,25 +126,33 @@ class AdversarialLawyerAgent:
                             if values and isinstance(values[0], list):
                                 pairs = values[0]
                             else:
-                                logger.warning(f"Could not extract list from dict keys: {list(pairs.keys())}, raw: {raw[:200]}")
+                                logger.debug(f"Could not extract list from dict keys: {list(pairs.keys())}, raw: {raw[:200]}")
                                 continue
                     
                     # Ensure pairs is a list
                     if not isinstance(pairs, list):
-                        logger.warning(f"Expected list but got {type(pairs)}, raw response: {raw[:200]}")
+                        logger.debug(f"Expected list but got {type(pairs)}, raw response: {raw[:200]}")
                         continue
 
                     logger.info(f"Successfully parsed {len(pairs)} question-answer pairs from batch {i}")
 
                     for pair in pairs:
                         if not isinstance(pair, dict):
-                            logger.warning(f"Expected dict but got {type(pair)}, skipping item")
-                            continue
+                            # Try to parse string as JSON if it looks like a JSON object
+                            if isinstance(pair, str) and pair.strip().startswith('{'):
+                                try:
+                                    pair = json.loads(pair.strip())
+                                except json.JSONDecodeError:
+                                    logger.debug(f"Skipping non-dict item: {type(pair)} - {str(pair)[:100]}")
+                                    continue
+                            else:
+                                logger.debug(f"Skipping non-dict item: {type(pair)} - {str(pair)[:100]}")
+                                continue
                             
                         # Validate required fields
                         required_fields = ["question", "reference_context", "expected_answer"]
                         if not all(key in pair for key in required_fields):
-                            logger.warning(f"Missing required fields in pair: {pair.keys()}")
+                            logger.debug(f"Missing required fields in pair: {pair.keys()}")
                             continue
                             
                         samples.append(
@@ -142,7 +165,7 @@ class AdversarialLawyerAgent:
                         )
 
                 except json.JSONDecodeError as e:
-                    logger.warning(f"JSON decode error in batch {i}: {e}, raw response: {raw[:200]}")
+                    logger.debug(f"JSON decode error in batch {i}: {e}, raw response: {raw[:200]}")
                     continue
 
                 if len(samples) >= n_questions:

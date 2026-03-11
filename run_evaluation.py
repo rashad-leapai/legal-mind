@@ -22,11 +22,15 @@ from typing import List
 from agents.adversarial_lawyer import AdversarialLawyerAgent
 from agents.compliance_auditor import ComplianceAuditorAgent
 from agents.shepardizer import ShepardizerAgent
-from core.config import get_settings
 from core.ingestion import IngestionPipeline
 from core.models import DocumentChunk, EvaluationSample, RAGResponse
 from core.pipeline import LegalMindRAG
 from core.vector_store import QdrantVectorStore
+
+# Evaluation thresholds (moved from config)
+FAITHFULNESS_THRESHOLD = 0.9
+RELEVANCE_THRESHOLD = 0.8
+PRECISION_THRESHOLD = 0.85
 
 def generate_golden_dataset(docs_path: Path, output_path: Path, n_questions: int = 50) -> List[EvaluationSample]:
     """Generate synthetic test data from legal documents."""
@@ -62,7 +66,15 @@ def generate_golden_dataset(docs_path: Path, output_path: Path, n_questions: int
     ]
     
     output_path.write_text(json.dumps(output_data, indent=2), encoding="utf-8")
-    print(f"💾 Saved {len(golden_samples)} questions to {output_path}")
+    
+    if len(golden_samples) == 0:
+        print("⚠️  Warning: No questions were generated. This may be due to:")
+        print("   - Insufficient document content")
+        print("   - API rate limiting") 
+        print("   - Document format issues")
+        print(f"💾 Saved empty dataset to {output_path}")
+    else:
+        print(f"💾 Saved {len(golden_samples)} questions to {output_path}")
     
     return golden_samples
 
@@ -72,6 +84,11 @@ def run_evaluation_metrics(golden_dataset_path: Path) -> dict:
     
     # Load golden dataset
     golden_data = json.loads(golden_dataset_path.read_text(encoding="utf-8"))
+    
+    if not golden_data:
+        print("❌ Golden dataset is empty. Run with --generate-golden first to create test data.")
+        return {"evaluation_passed": False, "error": "Empty golden dataset"}
+    
     golden_samples = [
         EvaluationSample(
             question=item["question"],
@@ -96,8 +113,6 @@ def run_evaluation_metrics(golden_dataset_path: Path) -> dict:
         "citation_accuracy": [],
         "failed_samples": []
     }
-    
-    settings = get_settings()
     
     for i, sample in enumerate(golden_samples):
         print(f"📝 Evaluating sample {i+1}/{len(golden_samples)}")
@@ -125,11 +140,11 @@ def run_evaluation_metrics(golden_dataset_path: Path) -> dict:
             results["citation_accuracy"].append(1.0 if citations_valid else 0.0)
             
             # Check thresholds
-            if faithfulness < settings.faithfulness_threshold:
+            if faithfulness < FAITHFULNESS_THRESHOLD:
                 results["failed_samples"].append({
                     "sample_id": i,
                     "question": sample.question,
-                    "reason": f"Faithfulness {faithfulness:.3f} < {settings.faithfulness_threshold}",
+                    "reason": f"Faithfulness {faithfulness:.3f} < {FAITHFULNESS_THRESHOLD}",
                     "response_time": response_time
                 })
                 
@@ -142,17 +157,24 @@ def run_evaluation_metrics(golden_dataset_path: Path) -> dict:
                 "response_time": 0
             })
     
-    # Calculate aggregates
-    results["avg_faithfulness"] = sum(results["faithfulness_scores"]) / len(results["faithfulness_scores"])
-    results["avg_relevance"] = sum(results["relevance_scores"]) / len(results["relevance_scores"])
-    results["avg_precision"] = sum(results["precision_scores"]) / len(results["precision_scores"])
-    results["citation_accuracy_rate"] = sum(results["citation_accuracy"]) / len(results["citation_accuracy"])
+    # Calculate aggregates with safety checks
+    if results["faithfulness_scores"]:
+        results["avg_faithfulness"] = sum(results["faithfulness_scores"]) / len(results["faithfulness_scores"])
+        results["avg_relevance"] = sum(results["relevance_scores"]) / len(results["relevance_scores"])
+        results["avg_precision"] = sum(results["precision_scores"]) / len(results["precision_scores"])
+        results["citation_accuracy_rate"] = sum(results["citation_accuracy"]) / len(results["citation_accuracy"])
+    else:
+        print("❌ No evaluation samples were successfully processed")
+        results["avg_faithfulness"] = 0.0
+        results["avg_relevance"] = 0.0
+        results["avg_precision"] = 0.0
+        results["citation_accuracy_rate"] = 0.0
     
     # Pass/fail determination
     results["evaluation_passed"] = (
-        results["avg_faithfulness"] >= settings.faithfulness_threshold and
-        results["avg_relevance"] >= settings.relevance_threshold and
-        results["avg_precision"] >= settings.precision_threshold and
+        results["avg_faithfulness"] >= FAITHFULNESS_THRESHOLD and
+        results["avg_relevance"] >= RELEVANCE_THRESHOLD and
+        results["avg_precision"] >= PRECISION_THRESHOLD and
         results["citation_accuracy_rate"] >= 0.95
     )
     
@@ -164,19 +186,17 @@ def print_evaluation_report(results: dict):
     print("🏛️  LEGALMIND RAG EVALUATION REPORT")
     print("="*60)
     
-    settings = get_settings()
-    
     print(f"📊 METRICS SUMMARY")
     print(f"   Total Samples: {results['total_samples']}")
-    print(f"   Faithfulness: {results['avg_faithfulness']:.3f} (threshold: {settings.faithfulness_threshold})")
-    print(f"   Answer Relevance: {results['avg_relevance']:.3f} (threshold: {settings.relevance_threshold})")
-    print(f"   Context Precision: {results['avg_precision']:.3f} (threshold: {settings.precision_threshold})")
+    print(f"   Faithfulness: {results['avg_faithfulness']:.3f} (threshold: {FAITHFULNESS_THRESHOLD})")
+    print(f"   Answer Relevance: {results['avg_relevance']:.3f} (threshold: {RELEVANCE_THRESHOLD})")
+    print(f"   Context Precision: {results['avg_precision']:.3f} (threshold: {PRECISION_THRESHOLD})")
     print(f"   Citation Accuracy: {results['citation_accuracy_rate']:.1%}")
     
     print(f"\n🎯 QUALITY GATES")
-    faithfulness_status = "✅ PASS" if results['avg_faithfulness'] >= settings.faithfulness_threshold else "❌ FAIL"
-    relevance_status = "✅ PASS" if results['avg_relevance'] >= settings.relevance_threshold else "❌ FAIL"
-    precision_status = "✅ PASS" if results['avg_precision'] >= settings.precision_threshold else "❌ FAIL"
+    faithfulness_status = "✅ PASS" if results['avg_faithfulness'] >= FAITHFULNESS_THRESHOLD else "❌ FAIL"
+    relevance_status = "✅ PASS" if results['avg_relevance'] >= RELEVANCE_THRESHOLD else "❌ FAIL"
+    precision_status = "✅ PASS" if results['avg_precision'] >= PRECISION_THRESHOLD else "❌ FAIL"
     citation_status = "✅ PASS" if results['citation_accuracy_rate'] >= 0.95 else "❌ FAIL"
     
     print(f"   Faithfulness (No Hallucinations): {faithfulness_status}")

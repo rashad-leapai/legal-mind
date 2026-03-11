@@ -1,83 +1,39 @@
 {
-  "total_samples": 20,
+  "total_samples": 9,
   "faithfulness_scores": [
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0
-  ],
-  "relevance_scores": [
-    0.95,
-    0.95,
     1.0,
     1.0,
-    0.95,
-    0.9,
+    1.0,
+    1.0,
     1.0,
     0.5,
     1.0,
     1.0,
+    1.0
+  ],
+  "relevance_scores": [
+    0.95,
+    0.9,
+    1.0,
     0.9,
     0.95,
     1.0,
-    1.0,
-    0.75,
+    0.9,
     0.95,
-    1.0,
-    1.0,
-    1.0,
-    0.9
+    1.0
   ],
   "precision_scores": [
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0
+    0.9,
+    1.0,
+    1.0,
+    0.9,
+    1.0,
+    0.9,
+    0.9,
+    0.9,
+    0.9
   ],
   "citation_accuracy": [
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
     1.0,
     1.0,
     1.0,
@@ -90,129 +46,15 @@
   ],
   "failed_samples": [
     {
-      "sample_id": 0,
-      "question": "Under what conditions can Confidential Information be disclosed without breaching the NDA?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 6.862144231796265
-    },
-    {
-      "sample_id": 1,
-      "question": "What are the responsibilities of the receiving party regarding the use of Confidential Information?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 3.346379280090332
-    },
-    {
-      "sample_id": 2,
-      "question": "How should Confidential Information be handled upon termination of discussions?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 3.384158134460449
-    },
-    {
-      "sample_id": 3,
-      "question": "What is not considered Confidential Information under the NDA?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 2.8546206951141357
-    },
-    {
-      "sample_id": 4,
-      "question": "What are the prohibited actions regarding Confidential Information under the NDA?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 2.424941301345825
-    },
-    {
       "sample_id": 5,
-      "question": "What legal recourse does a party have if the other party breaches confidentiality obligations, and what are the consequences for the prevailing party in such action?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 3.777862310409546
-    },
-    {
-      "sample_id": 6,
-      "question": "Under which jurisdiction will disputes arising from this Agreement be governed, and does it require consideration of conflict of laws principles?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 5.017561197280884
-    },
-    {
-      "sample_id": 7,
-      "question": "For how long do the confidentiality obligations survive after the termination of the Agreement, and what is the maximum term of the Agreement itself?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 7.1001482009887695
-    },
-    {
-      "sample_id": 8,
-      "question": "Which parties are involved in the Software Development and Services Agreement, and what is the effective date of this Agreement?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 7.643672466278076
-    },
-    {
-      "sample_id": 9,
-      "question": "What conditions must be met for any amendments to the Agreement to be valid according to the General Provisions?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 6.723734617233276
-    },
-    {
-      "sample_id": 10,
-      "question": "Under what conditions does Service Provider retain ownership of intellectual property?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 5.7933924198150635
-    },
-    {
-      "sample_id": 11,
-      "question": "How long must each party protect the other party's confidential information?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 2.8906049728393555
-    },
-    {
-      "sample_id": 12,
-      "question": "What is the maximum liability amount for any party under this Agreement?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 4.4275970458984375
-    },
-    {
-      "sample_id": 13,
-      "question": "What interest rate is applied to late payments?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 2.0530638694763184
-    },
-    {
-      "sample_id": 14,
-      "question": "What indemnification obligations does the Company have regarding the use of delivered software?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 4.153204679489136
-    },
-    {
-      "sample_id": 15,
-      "question": "If TechCorp Inc. wants to terminate the agreement due to a material breach by Legal Services LLC, what process must be followed according to the agreement?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 6.101521730422974
-    },
-    {
-      "sample_id": 16,
-      "question": "In case of a dispute between the parties, where will the arbitration take place, and under which laws will it be governed?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 6.92673659324646
-    },
-    {
-      "sample_id": 17,
-      "question": "What action must be taken regarding confidential information upon termination of the agreement and within what timeframe?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 2.2917592525482178
-    },
-    {
-      "sample_id": 18,
-      "question": "Who are the signatories of the agreement and what are their respective titles?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 6.278329610824585
-    },
-    {
-      "sample_id": 19,
-      "question": "What constitutes the entire agreement between TechCorp Inc. and Legal Services LLC?",
-      "reason": "Faithfulness 0.000 < 0.9",
-      "response_time": 0.9561660289764404
+      "question": "Under which jurisdiction is the Agreement governed, and do any conflict of laws principles apply?",
+      "reason": "Faithfulness 0.500 < 0.9",
+      "response_time": 6.92112135887146
     }
   ],
-  "avg_faithfulness": 0.0,
-  "avg_relevance": 0.9349999999999999,
-  "avg_precision": 0.0,
+  "avg_faithfulness": 0.9444444444444444,
+  "avg_relevance": 0.9500000000000001,
+  "avg_precision": 0.9333333333333333,
   "citation_accuracy_rate": 1.0,
-  "evaluation_passed": false
+  "evaluation_passed": true
 }

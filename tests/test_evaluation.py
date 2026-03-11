@@ -12,10 +12,10 @@ import pytest
 from agents.adversarial_lawyer import AdversarialLawyerAgent
 from agents.compliance_auditor import ComplianceAuditorAgent
 from agents.shepardizer import ShepardizerAgent
-from core.config import get_settings
 from core.models import DocumentChunk, EvaluationSample, RAGResponse, RetrievedChunk
 
-FAITHFULNESS_THRESHOLD = get_settings().faithfulness_threshold
+# Evaluation thresholds (moved from config)
+FAITHFULNESS_THRESHOLD = 0.9
 
 
 # ─── Fixtures ────────────────────────────────────────────────────────────────
