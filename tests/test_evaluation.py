@@ -313,25 +313,46 @@ class TestAdversarialLawyerAgent:
 class TestComplianceAuditorAgent:
     """Test the Compliance Auditor Agent (Fact-Checking & Hallucination Detector)"""
     
-    def test_deepeval_integration(self, sample_eval_sample, grounded_rag_response):
+    @patch('agents.compliance_auditor.FaithfulnessMetric')
+    @patch('agents.compliance_auditor.AnswerRelevancyMetric') 
+    @patch('agents.compliance_auditor.ContextualPrecisionMetric')
+    def test_deepeval_integration(self, mock_precision, mock_relevancy, mock_faithfulness, sample_eval_sample, grounded_rag_response):
         """Test that compliance auditor uses DeepEval for evaluation"""
-        agent = ComplianceAuditorAgent()
+        # Mock DeepEval metrics to avoid API calls in tests
+        mock_faithfulness_instance = MagicMock()
+        mock_faithfulness_instance.score = 0.95
+        mock_faithfulness_instance.reason = "All claims grounded"
+        mock_faithfulness.return_value = mock_faithfulness_instance
         
-        # Since DeepEval may fail in test environment, we expect fallback behavior
+        mock_relevancy_instance = MagicMock()
+        mock_relevancy_instance.score = 0.88
+        mock_relevancy_instance.reason = "Highly relevant"
+        mock_relevancy.return_value = mock_relevancy_instance
+        
+        mock_precision.return_value = MagicMock()
+        
+        agent = ComplianceAuditorAgent()
         result = agent.evaluate(sample_eval_sample, grounded_rag_response)
         
         assert "faithfulness" in result
         assert "answer_relevance" in result
-        assert isinstance(result["faithfulness"], float)
-        assert isinstance(result["answer_relevance"], float)
-        assert 0.0 <= result["faithfulness"] <= 1.0
-        assert 0.0 <= result["answer_relevance"] <= 1.0
+        assert result["passed"] is True
     
-    def test_context_precision_evaluation(self, sample_eval_sample, grounded_rag_response):
+    @patch('agents.compliance_auditor.FaithfulnessMetric')
+    @patch('agents.compliance_auditor.AnswerRelevancyMetric')
+    @patch('agents.compliance_auditor.ContextualPrecisionMetric')
+    def test_context_precision_evaluation(self, mock_precision, mock_relevancy, mock_faithfulness, sample_eval_sample, grounded_rag_response):
         """Test context precision evaluation"""
+        # Mock DeepEval metrics 
+        mock_faithfulness.return_value = MagicMock()
+        mock_relevancy.return_value = MagicMock()
+        
+        mock_precision_instance = MagicMock()
+        mock_precision_instance.score = 0.87
+        mock_precision.return_value = mock_precision_instance
+        
         agent = ComplianceAuditorAgent()
+        result = agent.evaluate_context_precision(sample_eval_sample, grounded_rag_response)
         
-        precision = agent.evaluate_context_precision(sample_eval_sample, grounded_rag_response)
-        
-        assert isinstance(precision, float)
-        assert 0.0 <= precision <= 1.0
+        assert isinstance(result, float)
+        assert 0 <= result <= 1
