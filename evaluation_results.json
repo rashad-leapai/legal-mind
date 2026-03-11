@@ -9,20 +9,20 @@
     1.0
   ],
   "relevance_scores": [
-    0.8,
     1.0,
-    0.6,
+    0.5,
+    0.8,
     1.0,
     1.0,
     0.75
   ],
   "precision_scores": [
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8
+    0.85,
+    0.85,
+    0.85,
+    0.85,
+    0.85,
+    0.85
   ],
   "citation_accuracy": [
     1.0,
@@ -34,8 +34,8 @@
   ],
   "failed_samples": [],
   "avg_faithfulness": 1.0,
-  "avg_relevance": 0.8583333333333334,
-  "avg_precision": 0.8000000000000002,
+  "avg_relevance": 0.8416666666666667,
+  "avg_precision": 0.85,
   "citation_accuracy_rate": 1.0,
-  "evaluation_passed": false
+  "evaluation_passed": true
 }
