@@ -36,23 +36,40 @@ def generate_golden_dataset(docs_path: Path, output_path: Path, n_questions: int
     """Generate synthetic test data from legal documents."""
     print(f"🏗️  Generating Golden Dataset ({n_questions} questions)...")
     
+    # Check if documents exist
+    doc_files = list(docs_path.glob("*.pdf")) + list(docs_path.glob("*.txt"))
+    if not doc_files:
+        print(f"❌ No documents found in {docs_path}")
+        return []
+    
     # Initialize components
-    ingestion = IngestionPipeline()
-    vector_store = QdrantVectorStore()
-    adversarial_agent = AdversarialLawyerAgent(vector_store)
+    try:
+        ingestion = IngestionPipeline()
+        vector_store = QdrantVectorStore()
+        adversarial_agent = AdversarialLawyerAgent(vector_store)
+    except Exception as e:
+        print(f"❌ Failed to initialize components: {e}")
+        return []
     
     # Ingest documents
     all_chunks = []
-    doc_files = list(docs_path.glob("*.pdf")) + list(docs_path.glob("*.txt"))
-    
     for doc_file in doc_files[:10]:  # Limit to 10 docs for speed
         print(f"📄 Processing {doc_file.name}")
-        chunks = ingestion.ingest(doc_file)
-        all_chunks.extend(chunks)
+        try:
+            chunks = ingestion.ingest(doc_file)
+            all_chunks.extend(chunks)
+        except Exception as e:
+            print(f"⚠️  Failed to process {doc_file.name}: {e}")
+            continue
+    
     
     # Generate test questions
     print("🤖 Generating adversarial questions...")
-    golden_samples = adversarial_agent.generate_golden_dataset(all_chunks, n_questions)
+    try:
+        golden_samples = adversarial_agent.generate_golden_dataset(all_chunks, n_questions)
+    except Exception as e:
+        print(f"❌ Question generation failed: {e}")
+        golden_samples = []
     
     # Save results
     output_data = [
@@ -87,7 +104,16 @@ def run_evaluation_metrics(golden_dataset_path: Path) -> dict:
     
     if not golden_data:
         print("❌ Golden dataset is empty. Run with --generate-golden first to create test data.")
-        return {"evaluation_passed": False, "error": "Empty golden dataset"}
+        return {
+            "evaluation_passed": False, 
+            "error": "Empty golden dataset",
+            "total_samples": 0,
+            "avg_faithfulness": 0.0,
+            "avg_relevance": 0.0,
+            "avg_precision": 0.0,
+            "citation_accuracy_rate": 0.0,
+            "failed_samples": []
+        }
     
     golden_samples = [
         EvaluationSample(
@@ -186,6 +212,15 @@ def print_evaluation_report(results: dict):
     print("🏛️  LEGALMIND RAG EVALUATION REPORT")
     print("="*60)
     
+    # Handle case where evaluation failed
+    if "error" in results:
+        print(f"❌ EVALUATION ERROR: {results['error']}")
+        print(f"   Total Samples: {results.get('total_samples', 0)}")
+        print("   Unable to compute metrics due to empty dataset")
+        print("\n🏆 OVERALL: ❌ EVALUATION FAILED")
+        print("="*60 + "\n")
+        return
+    
     print(f"📊 METRICS SUMMARY")
     print(f"   Total Samples: {results['total_samples']}")
     print(f"   Faithfulness: {results['avg_faithfulness']:.3f} (threshold: {FAITHFULNESS_THRESHOLD})")
@@ -207,7 +242,7 @@ def print_evaluation_report(results: dict):
     overall_status = "✅ EVALUATION PASSED" if results['evaluation_passed'] else "❌ EVALUATION FAILED"
     print(f"\n🏆 OVERALL: {overall_status}")
     
-    if results['failed_samples']:
+    if results.get('failed_samples'):
         print(f"\n⚠️  FAILED SAMPLES ({len(results['failed_samples'])})")
         for fail in results['failed_samples'][:5]:  # Show first 5
             print(f"   Sample {fail['sample_id']}: {fail['reason']}")
