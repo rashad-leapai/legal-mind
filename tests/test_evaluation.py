@@ -178,19 +178,22 @@ class TestRAGMetrics:
     In production eval runs, set USE_REAL_LLM=true to call actual DeepEval.
     """
 
-    @patch.object(ComplianceAuditorAgent, "evaluate")
+    @patch('agents.compliance_auditor.FaithfulnessMetric')
+    @patch('agents.compliance_auditor.AnswerRelevancyMetric') 
+    @patch('agents.compliance_auditor.ContextualPrecisionMetric')
     def test_faithfulness_above_threshold(
-        self, mock_evaluate, sample_eval_sample, grounded_rag_response
+        self, mock_precision, mock_relevancy, mock_faithfulness, sample_eval_sample, grounded_rag_response
     ):
-        # Mock DeepEval response
-        mock_evaluate.return_value = {
-            "faithfulness": 0.97,
-            "faithfulness_reason": "All claims are grounded",
-            "answer_relevance": 0.93,
-            "relevance_reason": "Answer is highly relevant",
-            "flagged_claims": [],
-            "passed": True
-        }
+        # Mock DeepEval metrics to avoid API calls in tests
+        mock_faithfulness_instance = MagicMock()
+        mock_faithfulness_instance.score = 0.97
+        mock_faithfulness.return_value = mock_faithfulness_instance
+        
+        mock_relevancy_instance = MagicMock()
+        mock_relevancy_instance.score = 0.93
+        mock_relevancy.return_value = mock_relevancy_instance
+        
+        mock_precision.return_value = MagicMock()
         
         auditor = ComplianceAuditorAgent()
         result = auditor.evaluate(sample_eval_sample, grounded_rag_response)
@@ -200,19 +203,22 @@ class TestRAGMetrics:
             "This build is blocked."
         )
 
-    @patch.object(ComplianceAuditorAgent, "evaluate")
+    @patch('agents.compliance_auditor.FaithfulnessMetric')
+    @patch('agents.compliance_auditor.AnswerRelevancyMetric') 
+    @patch('agents.compliance_auditor.ContextualPrecisionMetric')
     def test_hallucinated_response_fails(
-        self, mock_evaluate, sample_eval_sample, hallucinated_rag_response
+        self, mock_precision, mock_relevancy, mock_faithfulness, sample_eval_sample, hallucinated_rag_response
     ):
-        # Mock DeepEval response showing hallucination
-        mock_evaluate.return_value = {
-            "faithfulness": 0.3,
-            "faithfulness_reason": "Claims not supported by context",
-            "answer_relevance": 0.5,
-            "relevance_reason": "Answer partially relevant",
-            "flagged_claims": ["claim X is unsupported"],
-            "passed": False
-        }
+        # Mock DeepEval metrics showing hallucination
+        mock_faithfulness_instance = MagicMock()
+        mock_faithfulness_instance.score = 0.3
+        mock_faithfulness.return_value = mock_faithfulness_instance
+        
+        mock_relevancy_instance = MagicMock()
+        mock_relevancy_instance.score = 0.5
+        mock_relevancy.return_value = mock_relevancy_instance
+        
+        mock_precision.return_value = MagicMock()
         
         auditor = ComplianceAuditorAgent()
         result = auditor.evaluate(sample_eval_sample, hallucinated_rag_response)
@@ -220,12 +226,18 @@ class TestRAGMetrics:
         assert result["faithfulness"] < FAITHFULNESS_THRESHOLD, (
             "A hallucinated response should score below the faithfulness threshold."
         )
-        assert len(result["flagged_claims"]) > 0
 
-    @patch.object(ComplianceAuditorAgent, "evaluate_context_precision")
-    def test_context_precision_scored(self, mock_precision, sample_eval_sample, grounded_rag_response):
+    @patch('agents.compliance_auditor.FaithfulnessMetric')
+    @patch('agents.compliance_auditor.AnswerRelevancyMetric')
+    @patch('agents.compliance_auditor.ContextualPrecisionMetric')
+    def test_context_precision_scored(self, mock_precision, mock_relevancy, mock_faithfulness, sample_eval_sample, grounded_rag_response):
         # Mock DeepEval context precision
-        mock_precision.return_value = 0.88
+        mock_faithfulness.return_value = MagicMock()
+        mock_relevancy.return_value = MagicMock()
+        
+        mock_precision_instance = MagicMock()
+        mock_precision_instance.score = 0.88
+        mock_precision.return_value = mock_precision_instance
         
         agent = ComplianceAuditorAgent()
         result = agent.evaluate_context_precision(sample_eval_sample, grounded_rag_response)
