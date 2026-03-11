@@ -129,8 +129,8 @@ def run_evaluation_metrics(golden_dataset_path: Path) -> dict:
             relevance = audit_result["answer_relevance"]
             
             # Evaluate context precision and citations
+            precision = compliance_auditor.evaluate_context_precision(sample, rag_response)
             shepard_result = shepardizer.validate(sample.question, rag_response)
-            precision = shepard_result["context_precision"] 
             citations_valid = shepard_result["citations_valid"]
             
             # Record results

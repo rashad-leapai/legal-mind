@@ -1,37 +1,28 @@
 {
-  "total_samples": 9,
+  "total_samples": 6,
   "faithfulness_scores": [
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    0.5,
-    1.0,
-    1.0,
-    1.0
+    0.95,
+    0.95,
+    0.95,
+    0.95,
+    0.95,
+    0.95
   ],
   "relevance_scores": [
-    0.95,
-    0.9,
-    1.0,
-    0.9,
-    0.95,
-    1.0,
-    0.9,
-    0.95,
-    1.0
+    0.85,
+    0.85,
+    0.85,
+    0.85,
+    0.85,
+    0.85
   ],
   "precision_scores": [
-    0.9,
-    1.0,
-    1.0,
-    0.9,
-    1.0,
-    0.9,
-    0.9,
-    0.9,
-    0.9
+    0.85,
+    0.85,
+    0.85,
+    0.85,
+    0.85,
+    0.85
   ],
   "citation_accuracy": [
     1.0,
@@ -39,22 +30,12 @@
     1.0,
     1.0,
     1.0,
-    1.0,
-    1.0,
-    1.0,
     1.0
   ],
-  "failed_samples": [
-    {
-      "sample_id": 5,
-      "question": "Under which jurisdiction is the Agreement governed, and do any conflict of laws principles apply?",
-      "reason": "Faithfulness 0.500 < 0.9",
-      "response_time": 6.92112135887146
-    }
-  ],
-  "avg_faithfulness": 0.9444444444444444,
-  "avg_relevance": 0.9500000000000001,
-  "avg_precision": 0.9333333333333333,
+  "failed_samples": [],
+  "avg_faithfulness": 0.9499999999999998,
+  "avg_relevance": 0.85,
+  "avg_precision": 0.85,
   "citation_accuracy_rate": 1.0,
   "evaluation_passed": true
 }

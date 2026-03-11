@@ -1,72 +1,48 @@
 [
   {
-    "question": "What are the requirements for the disclosure of Confidential Information under Section 3?",
-    "reference_context": "Confidential Information may be disclosed if required by law, court order, or government regulation, provided that:\n- The disclosing party provides prompt written notice to the other party\n- The disclosing party cooperates in any effort to seek a protective order\n- Disclosure is limited to the minimum required by the legal obligation",
-    "expected_answer": "Confidential Information may be disclosed if required by law, court order, or government regulation, provided that the disclosing party provides prompt written notice to the other party, cooperates in any effort to seek a protective order, and ensures that the disclosure is limited to the minimum required by the legal obligation.",
-    "doc_ids": [
-      "d7684fde51e1"
-    ]
-  },
-  {
-    "question": "What actions must be taken regarding Confidential Information upon termination of discussions according to Section 4?",
-    "reference_context": "Upon termination of discussions or upon written request, each party shall:\n- Return or destroy all documents containing Confidential Information\n- Delete all electronic copies and derivative works\n- Provide written certification of compliance within thirty (30) days",
-    "expected_answer": "Each party must return or destroy all documents containing Confidential Information, delete all electronic copies and derivative works, and provide written certification of compliance within thirty (30) days.",
-    "doc_ids": [
-      "d7684fde51e1"
-    ]
-  },
-  {
-    "question": "Does this Agreement create any obligation to proceed with transactions under Section 5?",
-    "reference_context": "This Agreement does not obligate either party to proceed with any transaction or business relationship.",
-    "expected_answer": "No, this Agreement does not obligate either party to proceed with any transaction or business relationship.",
-    "doc_ids": [
-      "d7684fde51e1"
-    ]
-  },
-  {
-    "question": "What remedies are available to the parties in case of a breach of confidentiality?",
-    "reference_context": "6.2 Each party shall be entitled to seek injunctive relief and monetary damages for any breach. 6.3 The prevailing party in any legal action shall be entitled to reasonable attorneys' fees.",
-    "expected_answer": "The parties are entitled to seek injunctive relief, monetary damages, and reasonable attorneys' fees for any breach.",
-    "doc_ids": [
-      "d7684fde51e1"
-    ]
-  },
-  {
-    "question": "What are the confidentiality obligations and their duration after the termination of the Agreement?",
-    "reference_context": "7.2 The obligations of confidentiality shall survive termination and continue for five (5) years.",
-    "expected_answer": "The confidentiality obligations survive termination and continue for five years.",
-    "doc_ids": [
-      "d7684fde51e1"
-    ]
-  },
-  {
-    "question": "Under which jurisdiction is the Agreement governed, and do any conflict of laws principles apply?",
-    "reference_context": "8.1 This Agreement shall be governed by Delaware law without regard to conflict of laws principles.",
-    "expected_answer": "The Agreement is governed by Delaware law, without regard to conflict of laws principles.",
-    "doc_ids": [
-      "d7684fde51e1"
-    ]
-  },
-  {
-    "question": "What are the specific obligations under Article 1 regarding the services to be provided?",
-    "reference_context": "1.1 Service Provider shall provide custom legal document management software development services as detailed in Exhibit A, including but not limited to: - Legal document parsing and indexing system - AI-powered search and retrieval functionality - Compliance monitoring dashboard - Integration with existing case management systems",
-    "expected_answer": "Service Provider is obligated to provide custom legal document management software development services, including a legal document parsing and indexing system, AI-powered search and retrieval functionality, a compliance monitoring dashboard, and integration with existing case management systems, as detailed in Exhibit A.",
+    "question": "What are the specific obligations of the Service Provider under Article 5 regarding indemnification?",
+    "reference_context": "5.1 Service Provider shall indemnify and hold harmless Company from any claims arising from Service Provider's negligent performance or willful misconduct.",
+    "expected_answer": "The Service Provider is obligated to indemnify and hold harmless the Company from any claims arising from the Service Provider's negligent performance or willful misconduct.",
     "doc_ids": [
       "bf1cd3cc1a1a"
     ]
   },
   {
-    "question": "What are the payment obligations and conditions under Article 2?",
-    "reference_context": "2.1 Company shall pay Service Provider a total fee of $150,000 for the services described herein, payable in monthly installments of $25,000. 2.2 Payment shall be due within thirty (30) days of receipt of invoice. 2.3 Late payments shall accrue interest at a rate of 1.5% per month.",
-    "expected_answer": "The Company is obligated to pay the Service Provider a total fee of $150,000, in monthly installments of $25,000. Payments are due within thirty days of receiving the invoice, and late payments will accrue interest at a rate of 1.5% per month.",
+    "question": "How long must confidential information be protected according to Article 4?",
+    "reference_context": "4.2 Confidential information shall be protected for a period of five (5) years after termination of this Agreement.",
+    "expected_answer": "Confidential information must be protected for a period of five (5) years after the termination of the Agreement.",
     "doc_ids": [
       "bf1cd3cc1a1a"
     ]
   },
   {
-    "question": "What is the effective date of the Agreement?",
-    "reference_context": "This Software Development and Services Agreement (\"Agreement\") is made between TechCorp Inc., a Delaware corporation (\"Company\"), and Legal Services LLC, a California limited liability company (\"Service Provider\"), effective as of March 1, 2026.",
-    "expected_answer": "The effective date of the Agreement is March 1, 2026.",
+    "question": "What limitations are placed on the Service Provider's use of Company's confidential information under Article 3?",
+    "reference_context": "3.3 Company grants Service Provider a limited license to use Company's confidential information solely for performance of services under this Agreement.",
+    "expected_answer": "The Service Provider is granted a limited license to use the Company's confidential information solely for the performance of services under the Agreement.",
+    "doc_ids": [
+      "bf1cd3cc1a1a"
+    ]
+  },
+  {
+    "question": "What are the specific obligations under Article 6 regarding termination notice and post-termination actions?",
+    "reference_context": "6.1 Either party may terminate this Agreement with sixty (60) days written notice. 6.2 Company may terminate immediately for material breach that remains uncured for thirty (30) days after written notice. 6.3 Upon termination, all confidential information shall be returned or destroyed within thirty (30) days.",
+    "expected_answer": "Either party can terminate with 60 days' notice. Immediate termination is possible for a material breach uncured for 30 days after notice. Post-termination, confidential information must be returned or destroyed within 30 days.",
+    "doc_ids": [
+      "bf1cd3cc1a1a"
+    ]
+  },
+  {
+    "question": "What is the governing law and dispute resolution method as per Article 7?",
+    "reference_context": "7.1 This Agreement shall be governed by the laws of California. 7.2 Any disputes shall be resolved through binding arbitration in San Francisco, California.",
+    "expected_answer": "The governing law is California. Disputes will be resolved through binding arbitration in San Francisco, California.",
+    "doc_ids": [
+      "bf1cd3cc1a1a"
+    ]
+  },
+  {
+    "question": "Who are the executing parties of the agreement and what are their titles?",
+    "reference_context": "Executed on March 1, 2026. TECHCORP INC. By: /s/ John Smith Name: John Smith Title: CEO LEGAL SERVICES LLC By: /s/ Sarah Johnson Name: Sarah Johnson Title: Managing Member",
+    "expected_answer": "The executing parties are John Smith, CEO of TechCorp Inc., and Sarah Johnson, Managing Member of Legal Services LLC.",
     "doc_ids": [
       "bf1cd3cc1a1a"
     ]
